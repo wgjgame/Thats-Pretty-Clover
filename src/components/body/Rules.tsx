@@ -1,4 +1,8 @@
-export default function Rules() {
+type RulesProps = {
+  onClose: () => void;
+};
+
+export default function Rules({ onClose }: RulesProps) {
   const gradientTextStyle = {
     background: "linear-gradient(45deg, #ffffff, rgb(251, 255, 14), #27e82ad9)",
     WebkitBackgroundClip: "text" as const,
@@ -14,13 +18,20 @@ export default function Rules() {
         background: "linear-gradient(75deg, #fbf7afef, #74d16eff, #efff14d9)",
       }}
     >
+      {/* 右上角关闭按钮 */}
+      <button
+        onClick={onClose}
+        className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center !rounded-full bg-gray-200 font-bold text-lg shadow-md"
+        aria-label="关闭规则"
+      >
+        ×
+      </button>
+
       <h1 className="text-2xl text-center mb-4" style={gradientTextStyle}>
         游戏规则
       </h1>
 
-      <p>
-        这是一个与四叶草有关的猜词卡的小游戏, 创作来源于桌游 So Clover!
-      </p>
+      <p>这是一个与四叶草有关的猜词卡的小游戏, 创作来源于桌游 So Clover!</p>
 
       <h2 className="font-bold text-lg" style={gradientTextStyle}>
         出题人

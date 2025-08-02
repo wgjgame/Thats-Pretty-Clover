@@ -14,9 +14,7 @@ export interface CardDockProps {
 export const CardDockContext = createContext<{
   cardDock: CardDockProps[];
   setCardDock: React.Dispatch<React.SetStateAction<CardDockProps[]>>;
-  clearTile: (cardDock: CardDockProps, slot: number) => void;
 }>({
   cardDock: [],
   setCardDock: () => {},
-  clearTile: () => {},
 });

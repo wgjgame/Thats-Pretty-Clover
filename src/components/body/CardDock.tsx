@@ -4,28 +4,41 @@ import { CardDockContext, type CardDockProps } from "../../CardDockContext";
 import React from "react";
 
 export default function CardDock({ slot }: { slot: number }) {
-  const { cardDock, setCardDock, clearTile } =
-    React.useContext(CardDockContext);
+  const { cardDock, setCardDock } = React.useContext(CardDockContext);
 
   const [{ isOver }, dropRef] = useDrop(() => ({
     accept: "CARD",
     drop: (item: CardDockProps) => {
-      setCardDock((items) => {
-        const clonedItems = [...items];
+      if (item.slot == null) return; // early exit
 
+      setCardDock((prevItems) => {
+        const clonedItems = [...prevItems];
+
+        const sourceIndex = item.slot - 1;
         const targetIndex = slot - 1;
-        const sourceIndex = item.slot! - 1;
 
-        const targetItem = clonedItems[targetIndex];
         const sourceItem = clonedItems[sourceIndex];
+        const targetItem = clonedItems[targetIndex];
 
-        if (targetItem.words && sourceItem.words) {
+        if (!sourceItem) return prevItems;
+
+        if (targetItem?.words && sourceItem?.words) {
+          // swap
           clonedItems[targetIndex] = { ...sourceItem, slot };
-          clonedItems[sourceIndex] = { ...targetItem, slot: item.slot! };
+          clonedItems[sourceIndex] = { ...targetItem, slot: item.slot };
         } else {
+          // move item, and clear original
           clonedItems[targetIndex] = { ...item, slot };
-          clearTile(item, slot);
+
+          // clear previous only if slot changed
+          if (item.slot !== slot) {
+            clonedItems[sourceIndex] = {
+              ...clonedItems[sourceIndex],
+              words: undefined,
+            };
+          }
         }
+
         return clonedItems;
       });
     },

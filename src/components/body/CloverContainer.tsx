@@ -59,7 +59,7 @@ export default function CloverContainer({
             />
           </div>
 
-          <div className="absolute bottom-[-38px] left-1/2 -translate-x-1/2 font-bold">
+          <div className="absolute bottom-[-40px] left-1/2 -translate-x-1/2 font-bold">
             <input
               style={{
                 background:
@@ -70,7 +70,7 @@ export default function CloverContainer({
               disabled={!!savedCards.length}
               value={matchingWords[1] ?? ""}
               type="text"
-              className="h-[30px] text-green-900 text-center outline-none"
+              className="text-center outline-none"
               onChange={(e) => {
                 handleChange(e, 1);
               }}

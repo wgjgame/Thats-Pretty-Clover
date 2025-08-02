@@ -23,7 +23,7 @@ export default function Starting({
         className="mt-10 text-green-1000 font-bold py-2 px-4 rounded border-4 border-green-500"
         onClick={() => gameStarts()}
       >
-        Game Starts
+        Game Start
       </button>
     )
   );

@@ -85,16 +85,6 @@ function App() {
     setCardDock(updated);
   }
 
-  function clearTile(item: CardDockProps, slot: number) {
-    if (item?.slot === slot) return;
-
-    setCardDock((prev) =>
-      prev.map((card) =>
-        card.slot === item.slot ? { ...card, words: undefined } : card
-      )
-    );
-  }
-
   return (
     <div className="App">
       <div
@@ -117,7 +107,7 @@ function App() {
         Rules
       </button>
       <Header gameStart={gameStart} />
-      {showRules && <Rules />}
+      {showRules && <Rules onClose={() => setShowRules(false)} />}
       {(matchSuccess !== undefined || warning.showWarning) && (
         <ResponseBanner
           warning={warning}
@@ -133,29 +123,27 @@ function App() {
         setMatchSuccess={setMatchSuccess}
       ></Starting>
       {gameStart && !matchSuccess && failedCount <= 7 && (
-        <CardDockContext.Provider
-          value={{ cardDock, setCardDock, clearTile: clearTile }}
-        >
+        <CardDockContext.Provider value={{ cardDock, setCardDock }}>
           <DndProvider backend={HTML5Backend}>
             {savedCards.length > 0 && (
-              <div
-                style={{
-                  background:
-                    "linear-gradient(90deg, #fff64cef, #b4f367ff, #29be5fd9)",
-                }}
-                className="flex gap-4 mt-8 p-4 bg-green-200 rounded-xl"
-              >
-                {cardDock.slice(0, revealCards ? 4 : 5).map((card) => (
-                  <CardDock key={card.slot} slot={card.slot} />
-                ))}
-                {revealCards &&
-                  (() => {
-                    const lastSaved = savedCards.at(-1);
-                    return lastSaved?.words ? (
-                      <CardDock key={lastSaved.slot} slot={lastSaved.slot} />
-                    ) : null;
-                  })()}
-              </div>
+            <div
+              style={{
+                background:
+                  "linear-gradient(90deg, #fff64cef, #b4f367ff, #29be5fd9)",
+              }}
+              className="flex gap-4 mt-8 p-4 bg-green-200 rounded-xl"
+            >
+              {cardDock.slice(0, revealCards ? 4 : 5).map((card) => (
+                <CardDock key={card.slot} slot={card.slot} />
+              ))}
+              {revealCards &&
+                (() => {
+                  const lastSaved = savedCards.at(-1);
+                  return lastSaved?.words ? (
+                    <CardDock key={lastSaved.slot} slot={lastSaved.slot} />
+                  ) : null;
+                })()}
+            </div>
             )}
             <CloverContainer
               savedCards={savedCards}
