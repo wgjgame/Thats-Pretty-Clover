@@ -14,7 +14,11 @@ export interface CardDockProps {
 export const CardDockContext = createContext<{
   cardDock: CardDockProps[];
   setCardDock: React.Dispatch<React.SetStateAction<CardDockProps[]>>;
+  selectedSlot: number | null;
+  setSelectedSlot: React.Dispatch<React.SetStateAction<number | null>>;
 }>({
   cardDock: [],
   setCardDock: () => {},
+  selectedSlot: null,
+  setSelectedSlot: () => {},
 });

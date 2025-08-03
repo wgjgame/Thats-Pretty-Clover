@@ -20,6 +20,7 @@ function App() {
   const [failedCount, setFailedCount] = useState(0);
   const [matchingWords, setMatchingWords] = useState<string[]>([]);
   const [showRules, setShowRules] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
   const [warning, setWarning] = useState({
     showWarning: false,
     type: "",
@@ -54,6 +55,7 @@ function App() {
       setSavedCards([]);
       setRevealCards(false);
       setMatchingWords([]);
+      setSelectedSlot(null);
     }
   }, [gameStart]);
 
@@ -123,32 +125,35 @@ function App() {
         setMatchSuccess={setMatchSuccess}
       ></Starting>
       {gameStart && !matchSuccess && failedCount <= 7 && (
-        <CardDockContext.Provider value={{ cardDock, setCardDock }}>
+        <CardDockContext.Provider
+          value={{ cardDock, setCardDock, selectedSlot, setSelectedSlot }}
+        >
           <DndProvider backend={HTML5Backend}>
             {savedCards.length > 0 && (
-            <div
-              style={{
-                background:
-                  "linear-gradient(90deg, #fff64cef, #b4f367ff, #29be5fd9)",
-              }}
-              className="flex gap-4 mt-8 p-4 bg-green-200 rounded-xl"
-            >
-              {cardDock.slice(0, revealCards ? 4 : 5).map((card) => (
-                <CardDock key={card.slot} slot={card.slot} />
-              ))}
-              {revealCards &&
-                (() => {
-                  const lastSaved = savedCards.at(-1);
-                  return lastSaved?.words ? (
-                    <CardDock key={lastSaved.slot} slot={lastSaved.slot} />
-                  ) : null;
-                })()}
-            </div>
+              <div
+                style={{
+                  background:
+                    "linear-gradient(90deg, #fff64cef, #b4f367ff, #29be5fd9)",
+                }}
+                className="flex gap-4 mt-8 p-4 bg-green-200 rounded-xl"
+              >
+                {cardDock.slice(0, revealCards ? 4 : 5).map((card) => (
+                  <CardDock key={card.slot} slot={card.slot} />
+                ))}
+                {revealCards &&
+                  (() => {
+                    const lastSaved = savedCards.at(-1);
+                    return lastSaved?.words ? (
+                      <CardDock key={lastSaved.slot} slot={lastSaved.slot} />
+                    ) : null;
+                  })()}
+              </div>
             )}
             <CloverContainer
               savedCards={savedCards}
               matchingWords={matchingWords}
               setMatchingWords={setMatchingWords}
+              setSelectedSlot={setSelectedSlot}
             ></CloverContainer>
           </DndProvider>
           <CheckMatch
@@ -165,6 +170,7 @@ function App() {
             warning={warning}
             setWarning={setWarning}
             setGameStart={setGameStart}
+            setSelectedSlot={setSelectedSlot}
           ></CheckMatch>
         </CardDockContext.Provider>
       )}

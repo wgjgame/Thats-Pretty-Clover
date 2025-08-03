@@ -8,10 +8,12 @@ export default function CloverContainer({
   savedCards,
   matchingWords,
   setMatchingWords,
+  setSelectedSlot,
 }: {
   savedCards: CardDockProps[];
   matchingWords: string[];
   setMatchingWords: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedSlot: React.Dispatch<React.SetStateAction<number | null>>;
 }) {
   function handleChange(e: { target: { value: string } }, index: number) {
     const newWords = [...matchingWords];
@@ -53,6 +55,9 @@ export default function CloverContainer({
               value={matchingWords[0] ?? ""}
               type="text"
               className="h-[30px] text-center outline-none"
+              onClick={() => {
+                setSelectedSlot(null);
+              }}
               onChange={(e) => {
                 handleChange(e, 0);
               }}
@@ -71,6 +76,9 @@ export default function CloverContainer({
               value={matchingWords[1] ?? ""}
               type="text"
               className="text-center outline-none"
+              onClick={() => {
+                setSelectedSlot(null);
+              }}
               onChange={(e) => {
                 handleChange(e, 1);
               }}
@@ -89,6 +97,9 @@ export default function CloverContainer({
               value={matchingWords[2] ?? ""}
               type="text"
               className="text-center outline-none"
+              onClick={() => {
+                setSelectedSlot(null);
+              }}
               onChange={(e) => {
                 handleChange(e, 2);
               }}
@@ -107,6 +118,9 @@ export default function CloverContainer({
               value={matchingWords[3] ?? ""}
               type="text"
               className="text-center outline-none"
+              onClick={() => {
+                setSelectedSlot(null);
+              }}
               onChange={(e) => {
                 handleChange(e, 3);
               }}

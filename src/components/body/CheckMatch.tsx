@@ -15,6 +15,7 @@ export default function CheckMatch({
   setRevealCards,
   setWarning,
   setGameStart,
+  setSelectedSlot,
 }: {
   cardDock: CardDockProps[];
   savedCards: CardDockProps[];
@@ -31,6 +32,7 @@ export default function CheckMatch({
     React.SetStateAction<{ showWarning: boolean; type: string }>
   >;
   setGameStart: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedSlot: React.Dispatch<React.SetStateAction<number | null>>;
 }) {
   const prevCardDockRef = useRef<CardDockProps[] | null>(null);
 
@@ -58,6 +60,7 @@ export default function CheckMatch({
     const filled = cardDock.filter((card) => card.words) as CardDockProps[];
     setSavedCards(filled);
     setRevealCards(false);
+    setSelectedSlot(null);
 
     const cleared = cardDock.map(
       (card) => ({ ...card, words: undefined } as CardDockProps)
